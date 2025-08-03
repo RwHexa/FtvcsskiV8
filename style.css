@@ -1,0 +1,215 @@
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: sans-serif;
+}
+
+
+/* Reset fuer Vollbild-Container */
+.fullscreen-container {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/*
+ ========================================================================
+ VEREINFACHTE STRUKTUR: Wrapper zentriert die Card direkt
+ ========================================================================
+*/
+.wrapper {
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Erweiterte Pufferzone: 90px fuer besseres horizontales Scrollen */
+  padding: 90px;
+  box-sizing: border-box;
+
+  /* Mindestbreite fuer horizontales Scrollen mit Puffer */
+  min-width: calc(520px + 180px);
+}
+
+/*
+ ========================================================================
+ CARD: Direkt im Wrapper zentriert, kein absolutes Positioning noetig
+ ========================================================================
+*/
+.card {
+  width: 520px !important;
+  height: 670px !important;
+  position: relative !important;
+
+  /* DFM-Werte ueberschreiben */
+  left: auto !important;
+  top: auto !important;
+
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.85);
+  padding: 20px;
+  border: 5px solid #ee4565;
+  box-sizing: border-box;
+
+  /* Verhindert Schrumpfung bei kleinen Screens */
+  flex-shrink: 0;
+}
+
+/* Startseite */
+.start-seite {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f8ff;
+  /*  border: 4px dashed #a0a0a0;  */
+  box-sizing: border-box;
+}
+
+/* Verstecken-Klasse */
+.hidden {
+  display: none !important;
+}
+
+/*
+ ========================================================================
+ ERGEBNISLISTE STYLING
+ ========================================================================
+*/
+.results-grid {
+  border: 1px solid #ddd !important;
+  border-radius: 6px !important;
+  background-color: #fafafa !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+  overflow: hidden !important;
+}
+
+.results-grid td {
+  padding: 4px 6px !important;
+  border-right: 1px solid #eee !important;
+  border-bottom: 1px solid #eee !important;
+  font-size: 14px !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+.results-grid tr:nth-child(even) {
+  background-color: #f5f5f5 !important;
+}
+
+.results-grid tr:nth-child(odd) {
+  background-color: #ffffff !important;
+}
+
+.results-grid tr:hover {
+  background-color: #e3f2fd !important;
+}
+
+/* Erste und letzte Spalte (Teamnamen) linksbuendig */
+.results-grid td:first-child,
+.results-grid td:last-child {
+  text-align: left !important;
+  padding-left: 8px !important;
+  font-weight: 500 !important;
+}
+
+/* Mittlere Spalte (Ergebnis) hervorheben */
+.results-grid td:nth-child(2) {
+  font-weight: bold !important;
+  color: #2c5aa0 !important;
+  background-color: #f0f4ff !important;
+}
+
+/*
+ ========================================================================
+
+
+    */
+
+ /*
+ ========================================================================
+ ALTERNIERENDE TABELLENZEILEN - GELBER HEADER
+ ========================================================================
+*/
+
+ /* Header-Zeile: Gelb und fett */
+.table-striped tr:first-child td {
+  background-color: yellow !important;
+  font-weight: normal !important;
+}
+
+/* Gerade Datenzeilen (2, 4, 6, ...) - Grau */
+.table-striped tr:nth-child(even) td {
+  background-color: white !important;
+  font-weight: normal !important;
+}
+
+/* Ungerade Datenzeilen (3, 5, 7, ...) - Wei� */
+.table-striped tr:nth-child(odd):not(:first-child) td {
+  background-color: #f2f2f2 !important;
+  font-weight: normal !important;
+}
+
+
+/*
+ ========================================================================
+ STARTSEITE - SCHLICHT UND ZENTRIERT
+ ========================================================================
+*/
+
+ /* Startseite Container - einfache Zentrierung */
+.start-seite {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f8ff;
+  /*border: 4px dashed #a0a0a0; */
+  box-sizing: border-box;
+}
+
+/* Plakat einfach zentriert */
+.poster-image {
+  max-width: none;        /* Keine Beschraenkung */
+  max-height: none;     
+  width: auto;
+  height: auto;
+}
+
+/* Navigation-Button links oben - immer sichtbar */
+.nav-button-top {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+}
+
+
+/*
+ ========================================================================
+ RESPONSIVE DESIGN
+ ========================================================================
+*/
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 60px 50px;
+    min-width: calc(520px + 100px);
+  }
+}
+
+@media (max-width: 650px) {
+  .wrapper {
+    padding: 40px;
+    min-width: calc(320px + 80px);
+  }
+
+  .card {
+    width: min(520px, calc(100vw - 80px));
+    min-width: 320px;
+  }
+}
+
