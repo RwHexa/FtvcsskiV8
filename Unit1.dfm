@@ -176,12 +176,13 @@ object Form1: TForm1
         Width = 80
         Height = 35
         Caption = 'Spiel'
+        Color = clBisque
         ChildOrder = 9
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
+        Font.Color = clSkyBlue
         Font.Height = -14
         Font.Name = 'Segoe UI'
-        Font.Style = []
+        Font.Style = [fsBold, fsItalic]
         HeightPercent = 100.000000000000000000
         ParentFont = False
         WidthPercent = 100.000000000000000000
@@ -11572,14 +11573,14 @@ object Form1: TForm1
       ParentFont = False
       WidthPercent = 100.000000000000000000
     end
-    object WebLabel2: TWebLabel
-      Left = 25
-      Top = 51
-      Width = 62
+    object WebLabel5: TWebLabel
+      Left = 32
+      Top = 488
+      Width = 89
       Height = 21
-      Caption = 'Auswahl:'
+      Caption = '- Gruppe 6er'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clDarksalmon
+      Font.Color = clBlack
       Font.Height = -16
       Font.Name = 'Segoe UI'
       Font.Style = []
@@ -11587,29 +11588,14 @@ object Form1: TForm1
       ParentFont = False
       WidthPercent = 100.000000000000000000
     end
-    object WebLabel5: TWebLabel
-      Left = 32
-      Top = 488
-      Width = 108
-      Height = 25
-      Caption = '- Gruppe 6er'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clOlive
-      Font.Height = -19
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      HeightPercent = 100.000000000000000000
-      ParentFont = False
-      WidthPercent = 100.000000000000000000
-    end
     object WebLabel6: TWebLabel
-      Left = 424
-      Top = 560
+      Left = 419
+      Top = 543
       Width = 87
       Height = 17
-      Caption = 'von Rw-Vers.: 7'
+      Caption = 'von Rw-Vers.: 9'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clDarkblue
+      Font.Color = clDarkgray
       Font.Height = -13
       Font.Name = 'Segoe UI'
       Font.Style = [fsItalic]

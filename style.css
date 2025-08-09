@@ -8,7 +8,7 @@ html, body {
 }
 
 
-/* Reset fuer Vollbild-Container */
+/* Reset für Vollbild-Container */
 .fullscreen-container {
   position: absolute !important;
   top: 0 !important;
@@ -26,19 +26,19 @@ html, body {
   overflow: auto;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 
-  /* Erweiterte Pufferzone: 90px fuer besseres horizontales Scrollen */
+  /* Erweiterte Pufferzone: 90px für besseres horizontales Scrollen */
   padding: 90px;
   box-sizing: border-box;
 
-  /* Mindestbreite fuer horizontales Scrollen mit Puffer */
+  /* Mindestbreite für horizontales Scrollen mit Puffer */
   min-width: calc(520px + 180px);
 }
 
 /*
  ========================================================================
- CARD: Direkt im Wrapper zentriert, kein absolutes Positioning noetig
+ CARD: Direkt im Wrapper zentriert, kein absolutes Positioning nötig
  ========================================================================
 */
 .card {
@@ -46,7 +46,7 @@ html, body {
   height: 670px !important;
   position: relative !important;
 
-  /* DFM-Werte ueberschreiben */
+  /* DFM-Werte überschreiben */
   left: auto !important;
   top: auto !important;
 
@@ -110,7 +110,7 @@ html, body {
   background-color: #e3f2fd !important;
 }
 
-/* Erste und letzte Spalte (Teamnamen) linksbuendig */
+/* Erste und letzte Spalte (Teamnamen) linksbündig */
 .results-grid td:first-child,
 .results-grid td:last-child {
   text-align: left !important;
@@ -149,7 +149,7 @@ html, body {
   font-weight: normal !important;
 }
 
-/* Ungerade Datenzeilen (3, 5, 7, ...) - Weiï¿½ */
+/* Ungerade Datenzeilen (3, 5, 7, ...) - Weiß */
 .table-striped tr:nth-child(odd):not(:first-child) td {
   background-color: #f2f2f2 !important;
   font-weight: normal !important;
@@ -174,8 +174,8 @@ html, body {
 
 /* Plakat einfach zentriert */
 .poster-image {
-  max-width: none;        /* Keine Beschraenkung */
-  max-height: none;     
+  max-width: none;        /* Keine Größenbeschränkung */
+  max-height: none;       /* Keine Größenbeschränkung */
   width: auto;
   height: auto;
 }
@@ -212,4 +212,20 @@ html, body {
     min-width: 320px;
   }
 }
+
+@media (max-width: 900px) and (max-height: 600px) {
+  .wrapper {
+    align-items: flex-start !important;  /* Nicht mehr vertikal zentriert */
+    height: auto !important;
+    min-height: 100vh;
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+  body, html {
+    height: auto !important;
+    min-height: 100vh;
+    overflow-y: auto !important; /* Scrollen erlauben */
+  }
+}
+
 

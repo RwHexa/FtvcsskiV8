@@ -44,7 +44,6 @@ type
     WebLabel4: TWebLabel;
     WebImageControl1: TWebImageControl;
     WebLabel1: TWebLabel;
-    WebLabel2: TWebLabel;
     WebLabel5: TWebLabel;
     WebButton1: TWebButton;
     WebLabel6: TWebLabel;
