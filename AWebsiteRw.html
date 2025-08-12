@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fußball Turnier Manager</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #f0f8ff;
+      color: #222;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .header {
+      text-align: center;
+      padding: 48px 16px 24px 16px;
+      background: #2c5aa0;
+      color: #fff;
+    }
+         .header-logo {
+       width: 80px;
+       height: 80px;
+       display: inline-block;
+       margin-bottom: 12px;
+     }
+    .header-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .header-slogan {
+      font-size: 1.2rem;
+      font-weight: 300;
+      margin-bottom: 0;
+    }
+    .section {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(44,90,160,0.08);
+      padding: 32px 24px;
+    }
+    .features-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .feature {
+      flex: 1 1 220px;
+      min-width: 200px;
+      max-width: 300px;
+      background: #f0f8ff;
+      border-radius: 8px;
+      padding: 20px 16px;
+      margin: 0 0 16px 0;
+      box-shadow: 0 2px 8px rgba(44,90,160,0.04);
+      text-align: center;
+    }
+    .feature-icon {
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+      color: #ee4565;
+    }
+    .demo-img {
+      width: 100%;
+      max-width: 500px;
+      display: block;
+      margin: 0 auto 16px auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(44,90,160,0.08);
+      background: #eee;
+      height: 280px;
+      object-fit: cover;
+    }
+    .price-table {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      background: #f0f8ff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(44,90,160,0.04);
+    }
+    .price-table th, .price-table td {
+      padding: 16px 12px;
+      text-align: center;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .price-table th {
+      background: #2c5aa0;
+      color: #fff;
+      font-weight: 500;
+    }
+    .price-table tr:last-child td {
+      border-bottom: none;
+    }
+    .contact {
+      text-align: center;
+      margin-top: 24px;
+    }
+    .impressum {
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 16px;
+      text-align: center;
+    }
+    @media (max-width: 700px) {
+      .section { padding: 18px 4vw; }
+      .features-list { flex-direction: column; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-logo">
+      <img src="logo.svg" alt="Fußball Turnier Manager Logo" style="width: 100%; height: 100%;">
+    </div>
+    <div class="header-title">Fußball Turnier Manager</div>
+    <div class="header-slogan">Organisieren Sie Ihr Turnier digital, einfach & schnell!</div>
+  </div>
+
+  <div class="section">
+    <h2 style="text-align:center;">Features</h2>
+    <ul class="features-list">
+      <li class="feature">
+        <div class="feature-icon">⚽</div>
+        Teams anlegen & verwalten
+      </li>
+      <li class="feature">
+        <div class="feature-icon">📊</div>
+        Automatische Tabellenberechnung
+      </li>
+      <li class="feature">
+        <div class="feature-icon">📝</div>
+        Ergebnisse einfach eintragen
+      </li>
+      <li class="feature">
+        <div class="feature-icon">💾</div>
+        Speicherung im Browser (localStorage)
+      </li>
+      <li class="feature">
+        <div class="feature-icon">📱</div>
+        Responsive für Smartphone & PC
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 style="text-align:center;">Demo / Screenshot</h2>
+    <img src="cardrw.png" alt="Demo Screenshot" class="demo-img">
+    <p style="text-align:center;">So einfach verwalten Sie Ihr Turnier – probieren Sie es aus!</p>
+  </div>
+
+  <!-- MARKANTER ABSCHNITT: EIGENES TURNIER MIT ANKÜNDIGUNG -->
+  <div class="section tournament-announcement" style="background: linear-gradient(135deg, #ee4565 0%, #2c5aa0 100%); color: white; text-align: center; border: 3px solid #ffd700;">
+    <div style="margin-bottom: 24px;">
+      <h2 style="color: white; font-size: 2.2rem; margin-bottom: 16px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">🏆 EIGENES TURNIER MIT ANKÜNDIGUNG 🏆</h2>
+      <p style="font-size: 1.3rem; margin-bottom: 20px; font-weight: 500;">Ihr Plakat, Ihre Logos, Ihr Design - alles nach Ihren Vorgaben!</p>
+    </div>
+    
+    <div style="background: rgba(255,255,255,0.15); padding: 24px; border-radius: 12px; margin: 20px 0;">
+      <h3 style="color: white; font-size: 1.5rem; margin-bottom: 16px;">Was wir für Sie umsetzen:</h3>
+      <ul style="list-style: none; padding: 0; margin: 0; text-align: left; display: inline-block;">
+        <li style="margin: 8px 0; padding-left: 20px; position: relative;">
+          <span style="position: absolute; left: 0; color: #ffd700;">✓</span>
+          Startseite nach Ihren Wünschen gestaltet
+        </li>
+        <li style="margin: 8px 0; padding-left: 20px; position: relative;">
+          <span style="position: absolute; left: 0; color: #ffd700;">✓</span>
+          Direkt in den "FußballManager" eingebunden
+        </li>
+        <li style="margin: 8px 0; padding-left: 20px; position: relative;">
+          <span style="position: absolute; left: 0; color: #ffd700;">✓</span>
+          An Ihre Besucher und Sponsoren weitergegeben
+        </li>
+        <li style="margin: 8px 0; padding-left: 20px; position: relative;">
+          <span style="position: absolute; left: 0; color: #ffd700;">✓</span>
+          Professionelle Präsentation Ihres Events
+        </li>
+      </ul>
+    </div>
+    
+    <div style="background: rgba(255,215,0,0.2); padding: 20px; border-radius: 8px; border: 2px solid #ffd700; margin-top: 20px;">
+      <h4 style="color: #ffd700; font-size: 1.3rem; margin-bottom: 12px; text-transform: uppercase; font-weight: bold;">🚀 JETZT KONTAKTIEREN FÜR UMSETZUNG!</h4>
+      <p style="font-size: 1.1rem; margin-bottom: 16px;">Setzen Sie sich mit uns in Verbindung zwecks Umsetzung Ihres individuellen Turniers!</p>
+      <a href="mailto:rwwer999@outlook.de" style="display: inline-block; background: #ffd700; color: #2c5aa0; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.2rem; box-shadow: 0 4px 12px rgba(255,215,0,0.4); transition: all 0.3s ease;">📧 rwwer999@outlook.de</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 style="text-align:center;">Preise</h2>
+    <table class="price-table">
+      <tr>
+        <th>Version</th>
+        <th>Funktionen</th>
+        <th>Preis</th>
+      </tr>
+      <tr>
+        <td>Free</td>
+        <td>Bis 4 Teams, Basisfunktionen</td>
+        <td>0 €</td>
+      </tr>
+      <tr>
+        <td>Pro</td>
+        <td>Bis 8 Teams, Export, Support</td>
+        <td>5,99 €/Monat</td>
+      </tr>
+    </table>
+  </div>
+
+  
+  <div class="section contact">
+    <h2>Kontakt</h2>
+    <p>Sie haben Fragen oder möchten eine Demo? <br> Schreiben Sie an <a href="mailto:rwwer999@outlook.de">info@fussballturniermanager.de</a></p>
+  </div>
+
+  <div class="impressum">
+    &copy; 2025 Fußball Turnier Manager &ndash; Ein Projekt von [Rw].<br>
+    <a href="#">Impressum</a> | <a href="#">Datenschutz</a>
+  </div>
+</body>
+</html>
