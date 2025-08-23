@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Übersichtsliste (mit Status-Farben)</title>
+<style>
+  body {
+    font-family: sans-serif;
+    padding: 20px;
+  }
+  .controls {
+    margin-bottom: 20px;
+  }
+  button {
+      padding: 8px 12px;
+      border: 1px solid #777;
+      background-color: #f0f0f0;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+  }
+  button:hover {
+      background-color: #e0e0e0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+    word-wrap: break-word;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  .col-wann { width: 10%; }
+  .col-was  { width: 17%; }
+  .col-wo   { width: 17%; }
+  .col-inhalt { width: 28%; }
+  .truncate-container {
+      position: relative;
+  }
+  .truncate-container .content-display {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      min-height: 20px;
+  }
+  .truncate-container:hover .content-display {
+      white-space: normal;
+      overflow: visible;
+      background-color: #feffc7;
+      position: absolute;
+      border: 1px solid #ccc;
+      z-index: 10;
+      width: auto;
+      min-width: 100%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .edit-box {
+      width: 98%;
+      height: 120px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      font-family: inherit;
+      font-size: inherit;
+      display: none;
+  }
+  input[type="text"] {
+      width: 95%;
+      border: 1px solid #ccc;
+      padding: 5px;
+  }
+  .btnfarbe {
+    background-color: #4CAF50;
+    color: white
+  }
+
+  /* --- NEU: CSS-KLASSEN FÜR DIE STATUS-FARBEN --- */
+  .status-green { background-color: #d4edda; }
+  .status-yellow { background-color: #fff3cd; }
+  .status-red { background-color: #f8d7da; }
+  .status-default { background-color: transparent; }
+
+  /* --- NEU: STYLING FÜR DAS RECHTSKLICK-MENÜ --- */
+  #status-menu {
+    position: absolute;
+    display: none;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 100;
+    padding: 5px 0;
+    border-radius: 4px;
+  }
+  #status-menu .menu-item {
+    padding: 8px 15px;
+    cursor: pointer;
+  }
+  #status-menu .menu-item:hover {
+    background-color: #f0f0f0;
+  }
+
+</style>
+</head>
+<body>
+
+<h2>Projekt-Dokumentation: "FTmanager"</h2>
+
+<div class="controls">
+    <button class="btnfarbe" onclick="addRow()">Neue Tätigkeit</button>
+    <button onclick="exportToFile()">Daten als Datei sichern (Export)</button>
+    <button onclick="triggerImport()">Daten aus Datei laden (Import)</button>
+    <input type="file" id="import-file" onchange="importFromFile(event)" accept=".json" style="display: none;">
+</div>
+
+<table id="main-table">
+  <thead>
+    <tr>
+      <th class="col-wann">Wann</th>
+      <th class="col-was">Was</th>
+      <th class="col-wo">Wo</th>
+      <th class="col-inhalt">Inhalt alt</th>
+      <th class="col-inhalt">Inhalt neu</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Inhalt wird per JavaScript geladen -->
+  </tbody>
+</table>
+
+<!-- NEU: HTML für das Rechtsklick-Menü -->
+<div id="status-menu">
+    <div class="menu-item" data-color="status-green" onclick="setStatusColor(this)">Grün</div>
+    <div class="menu-item" data-color="status-yellow" onclick="setStatusColor(this)">Gelb</div>
+    <div class="menu-item" data-color="status-red" onclick="setStatusColor(this)">Rot</div>
+    <hr style="margin: 5px 0; border: 0; border-top: 1px solid #eee;">
+    <div class="menu-item" data-color="status-default" onclick="setStatusColor(this)">Farbe entfernen</div>
+</div>
+
+<script>
+  // NEU: Globale Variable, um die Zelle zu speichern, auf die geklickt wurde
+  let currentCellForMenu = null;
+  const statusClasses = ['status-green', 'status-yellow', 'status-red', 'status-default'];
+
+  // ===================================================================================
+  // DATENSTRUKTUR UND SPEICHERFUNKTIONEN (ANGEPASST)
+  // ===================================================================================
+
+  function getTableData() {
+    const table = document.getElementById('main-table').getElementsByTagName('tbody')[0];
+    const data = [];
+    for (const row of table.rows) {
+      const wasCell = row.cells[1];
+      // NEU: Liest die Status-Klasse aus der Zelle aus
+      const statusClass = statusClasses.find(c => wasCell.classList.contains(c)) || 'status-default';
+      
+      const rowData = {
+        wann: row.cells[0].querySelector('input').value,
+        was: row.cells[1].querySelector('input').value,
+        wo: row.cells[2].querySelector('input').value,
+        inhaltAlt: row.cells[3].querySelector('.content-display').innerHTML.replace(/&nbsp;/g, ''),
+        inhaltNeu: row.cells[4].querySelector('.content-display').innerHTML.replace(/&nbsp;/g, ''),
+        status: statusClass // NEU: Speichert den Status
+      };
+      data.push(rowData);
+    }
+    return data;
+  }
+
+  // (Die Funktionen loadTableData, saveData, loadInitialData, exportToFile, triggerImport, importFromFile bleiben unverändert)
+  function loadTableData(data) {
+    const tableBody = document.getElementById('main-table').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = '';
+    if (data) {
+      data.forEach(rowData => addRow(rowData));
+    }
+  }
+
+  function saveData() {
+    const data = getTableData();
+    localStorage.setItem('meineUebersichtData', JSON.stringify(data));
+    console.log("Daten automatisch gespeichert.");
+  }
+
+  function loadInitialData() {
+    const dataString = localStorage.getItem('meineUebersichtData');
+    if (dataString) {
+      const data = JSON.parse(dataString);
+      loadTableData(data);
+    } else {
+      addRow();
+    }
+  }
+
+  function exportToFile() {
+    const data = getTableData();
+    const dataString = JSON.stringify(data, null, 2);
+    const blob = new Blob([dataString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `meine-uebersicht-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function triggerImport() {
+    if (confirm("Achtung: Das Laden einer Datei überschreibt alle aktuellen, nicht gespeicherten Daten. Fortfahren?")) {
+        document.getElementById('import-file').click();
+    }
+  }
+  
+  function importFromFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const data = JSON.parse(e.target.result);
+        loadTableData(data);
+        saveData();
+        alert("Daten erfolgreich importiert!");
+      } catch (error) {
+        alert("Fehler: Die Datei konnte nicht gelesen werden.");
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+  }
+
+  // ===================================================================================
+  // MENÜ- UND TABELLEN-INTERAKTIVITÄT (NEUE FUNKTIONEN UND ANPASSUNGEN)
+  // ===================================================================================
+
+  // NEU: Zeigt das Kontextmenü an der richtigen Position an
+  function showStatusMenu(cell, event) {
+    event.preventDefault(); // Verhindert das Standard-Browser-Menü
+    currentCellForMenu = cell;
+    const menu = document.getElementById('status-menu');
+    menu.style.display = 'block';
+    menu.style.left = event.pageX + 'px';
+    menu.style.top = event.pageY + 'px';
+  }
+
+  // NEU: Setzt die Farbe auf der ausgewählten Zelle
+  function setStatusColor(menuItem) {
+    if (currentCellForMenu) {
+      const colorClass = menuItem.getAttribute('data-color');
+      // Entfernt alle alten Status-Klassen
+      currentCellForMenu.classList.remove(...statusClasses);
+      // Fügt die neue Klasse hinzu
+      currentCellForMenu.classList.add(colorClass);
+      saveData(); // Speichert die Änderung
+    }
+  }
+
+  // NEU: Versteckt das Menü, wenn irgendwo anders hingeklickt wird
+  window.onclick = function() {
+    document.getElementById('status-menu').style.display = 'none';
+    currentCellForMenu = null;
+  }
+  
+  function startEditing(element) {
+    const container = element.parentElement;
+    const editBox = container.querySelector('.edit-box');
+    
+    element.style.display = 'none';
+    editBox.style.display = 'block';
+    editBox.value = element.innerHTML.replace(/&nbsp;/g, '');
+    editBox.focus();
+  }
+
+  function stopEditing(element) {
+    const container = element.parentElement;
+    const display = container.querySelector('.content-display');
+    
+    display.innerHTML = element.value.trim() === '' ? '&nbsp;' : element.value;
+    
+    element.style.display = 'none';
+    display.style.display = 'block';
+    saveData();
+  }
+  
+  // ANGEPASST: Die addRow Funktion
+  function addRow(rowData = null) {
+    const table = document.getElementById('main-table').getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow();
+    
+    // Liest die Daten für die Zeile oder setzt Standardwerte
+    const wann = rowData ? rowData.wann : '';
+    const was = rowData ? rowData.was : '';
+    const wo = rowData ? rowData.wo : '';
+    const inhaltAlt = rowData ? rowData.inhaltAlt : '&nbsp;';
+    const inhaltNeu = rowData ? rowData.inhaltNeu : '&nbsp;';
+    const statusClass = rowData && rowData.status ? rowData.status : 'status-default'; // NEU
+
+    // NEU: oncontextmenu-Event zur "Was"-Zelle hinzugefügt
+    newRow.innerHTML = `
+      <td class="col-wann"><input type="text" value="${wann}" oninput="saveData()"></td>
+      <td class="col-was ${statusClass}" oncontextmenu="showStatusMenu(this, event)"><input type="text" value="${was}" oninput="saveData()"></td>
+      <td class="col-wo"><input type="text" value="${wo}" oninput="saveData()"></td>
+      <td class="col-inhalt">
+        <div class="truncate-container">
+          <div class="content-display" onclick="startEditing(this)">${inhaltAlt}</div>
+          <textarea class="edit-box" onblur="stopEditing(this)"></textarea>
+        </div>
+      </td>
+      <td class="col-inhalt">
+        <div class="truncate-container">
+          <div class="content-display" onclick="startEditing(this)">${inhaltNeu}</div>
+          <textarea class="edit-box" onblur="stopEditing(this)"></textarea>
+        </div>
+      </td>
+    `;
+    if (!rowData) {
+        saveData();
+    }
+  }
+
+  // ===================================================================================
+  // INITIALISIERUNG
+  // ===================================================================================
+  
+  document.addEventListener('DOMContentLoaded', loadInitialData);
+</script>
+
+</body>
+</html>
