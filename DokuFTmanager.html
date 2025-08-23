@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Übersichtsliste (mit Status-Farben)</title>
+<title>Projekt-Verwaltung</title>
 <style>
   body {
     font-family: sans-serif;
@@ -84,13 +84,13 @@
     color: white
   }
 
-  /* --- NEU: CSS-KLASSEN FÜR DIE STATUS-FARBEN --- */
+  /* CSS-KLASSEN FÜR DIE STATUS-FARBEN */
   .status-green { background-color: #d4edda; }
   .status-yellow { background-color: #fff3cd; }
   .status-red { background-color: #f8d7da; }
   .status-default { background-color: transparent; }
 
-  /* --- NEU: STYLING FÜR DAS RECHTSKLICK-MENÜ --- */
+  /* STYLING FÜR DAS RECHTSKLICK-MENÜ */
   #status-menu {
     position: absolute;
     display: none;
@@ -109,11 +109,66 @@
     background-color: #f0f0f0;
   }
 
+  /* --- NEU: STYLING FÜR HEADER UND LEGENDE --- */
+  .header-container {
+      display: flex;
+      justify-content: space-between; /* Platziert Elemente an den Rändern */
+      align-items: flex-start; /* Oben ausrichten */
+      margin-bottom: 20px;
+  }
+  .legend {
+      border: 1px solid #ccc;
+      padding: 10px 15px;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+  }
+  .legend h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #eee;
+  }
+  .legend-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+      font-size: 14px;
+  }
+  .legend-item:last-child {
+      margin-bottom: 0;
+  }
+  .color-box {
+      width: 16px;
+      height: 16px;
+      border: 1px solid #999;
+      margin-right: 8px;
+      display: inline-block;
+  }
+
 </style>
 </head>
 <body>
 
-<h2>Projekt-Dokumentation: "FTmanager"</h2>
+<!-- NEU: Header-Container für Überschrift und Legende -->
+<div class="header-container">
+    <div>
+        <h2>Projekt-Dokumentation: "FTmanager"</h2>
+        <h3>(alle Aktionen die zeitlich Vorgenommen werden)</h3>
+    </div>
+    <!-- NEU: Die Legende selbst -->
+    <div class="legend">
+        <h4>Status-Legende:</h4>
+        <div class="legend-item">
+            <span class="color-box status-green"></span> = Fertig / OK
+        </div>
+        <div class="legend-item">
+            <span class="color-box status-yellow"></span> = In Arbeit
+        </div>
+        <div class="legend-item">
+            <span class="color-box status-red"></span> = Achtung / Nicht OK
+        </div>
+    </div>
+</div>
 
 <div class="controls">
     <button class="btnfarbe" onclick="addRow()">Neue Tätigkeit</button>
@@ -125,11 +180,11 @@
 <table id="main-table">
   <thead>
     <tr>
-      <th class="col-wann">Wann</th>
-      <th class="col-was">Was</th>
-      <th class="col-wo">Wo</th>
-      <th class="col-inhalt">Inhalt alt</th>
-      <th class="col-inhalt">Inhalt neu</th>
+      <th class="col-wann">Datum</th>
+      <th class="col-was">Was gemacht Warum</th>
+      <th class="col-wo">Wo geändert Wohin</th>
+      <th class="col-inhalt">Inhalt(Code) alt</th>
+      <th class="col-inhalt">Inhalt(Code) neu</th>
     </tr>
   </thead>
   <tbody>
@@ -137,7 +192,7 @@
   </tbody>
 </table>
 
-<!-- NEU: HTML für das Rechtsklick-Menü -->
+<!-- HTML für das Rechtsklick-Menü -->
 <div id="status-menu">
     <div class="menu-item" data-color="status-green" onclick="setStatusColor(this)">Grün</div>
     <div class="menu-item" data-color="status-yellow" onclick="setStatusColor(this)">Gelb</div>
@@ -147,12 +202,12 @@
 </div>
 
 <script>
-  // NEU: Globale Variable, um die Zelle zu speichern, auf die geklickt wurde
+  // Globale Variable, um die Zelle zu speichern, auf die geklickt wurde
   let currentCellForMenu = null;
   const statusClasses = ['status-green', 'status-yellow', 'status-red', 'status-default'];
 
   // ===================================================================================
-  // DATENSTRUKTUR UND SPEICHERFUNKTIONEN (ANGEPASST)
+  // DATENSTRUKTUR UND SPEICHERFUNKTIONEN
   // ===================================================================================
 
   function getTableData() {
@@ -160,7 +215,6 @@
     const data = [];
     for (const row of table.rows) {
       const wasCell = row.cells[1];
-      // NEU: Liest die Status-Klasse aus der Zelle aus
       const statusClass = statusClasses.find(c => wasCell.classList.contains(c)) || 'status-default';
       
       const rowData = {
@@ -169,14 +223,13 @@
         wo: row.cells[2].querySelector('input').value,
         inhaltAlt: row.cells[3].querySelector('.content-display').innerHTML.replace(/&nbsp;/g, ''),
         inhaltNeu: row.cells[4].querySelector('.content-display').innerHTML.replace(/&nbsp;/g, ''),
-        status: statusClass // NEU: Speichert den Status
+        status: statusClass
       };
       data.push(rowData);
     }
     return data;
   }
 
-  // (Die Funktionen loadTableData, saveData, loadInitialData, exportToFile, triggerImport, importFromFile bleiben unverändert)
   function loadTableData(data) {
     const tableBody = document.getElementById('main-table').getElementsByTagName('tbody')[0];
     tableBody.innerHTML = '';
@@ -240,12 +293,11 @@
   }
 
   // ===================================================================================
-  // MENÜ- UND TABELLEN-INTERAKTIVITÄT (NEUE FUNKTIONEN UND ANPASSUNGEN)
+  // MENÜ- UND TABELLEN-INTERAKTIVITÄT
   // ===================================================================================
 
-  // NEU: Zeigt das Kontextmenü an der richtigen Position an
   function showStatusMenu(cell, event) {
-    event.preventDefault(); // Verhindert das Standard-Browser-Menü
+    event.preventDefault();
     currentCellForMenu = cell;
     const menu = document.getElementById('status-menu');
     menu.style.display = 'block';
@@ -253,19 +305,15 @@
     menu.style.top = event.pageY + 'px';
   }
 
-  // NEU: Setzt die Farbe auf der ausgewählten Zelle
   function setStatusColor(menuItem) {
     if (currentCellForMenu) {
       const colorClass = menuItem.getAttribute('data-color');
-      // Entfernt alle alten Status-Klassen
       currentCellForMenu.classList.remove(...statusClasses);
-      // Fügt die neue Klasse hinzu
       currentCellForMenu.classList.add(colorClass);
-      saveData(); // Speichert die Änderung
+      saveData();
     }
   }
 
-  // NEU: Versteckt das Menü, wenn irgendwo anders hingeklickt wird
   window.onclick = function() {
     document.getElementById('status-menu').style.display = 'none';
     currentCellForMenu = null;
@@ -292,20 +340,17 @@
     saveData();
   }
   
-  // ANGEPASST: Die addRow Funktion
   function addRow(rowData = null) {
     const table = document.getElementById('main-table').getElementsByTagName('tbody')[0];
     const newRow = table.insertRow();
     
-    // Liest die Daten für die Zeile oder setzt Standardwerte
     const wann = rowData ? rowData.wann : '';
     const was = rowData ? rowData.was : '';
     const wo = rowData ? rowData.wo : '';
     const inhaltAlt = rowData ? rowData.inhaltAlt : '&nbsp;';
     const inhaltNeu = rowData ? rowData.inhaltNeu : '&nbsp;';
-    const statusClass = rowData && rowData.status ? rowData.status : 'status-default'; // NEU
+    const statusClass = rowData && rowData.status ? rowData.status : 'status-default';
 
-    // NEU: oncontextmenu-Event zur "Was"-Zelle hinzugefügt
     newRow.innerHTML = `
       <td class="col-wann"><input type="text" value="${wann}" oninput="saveData()"></td>
       <td class="col-was ${statusClass}" oncontextmenu="showStatusMenu(this, event)"><input type="text" value="${was}" oninput="saveData()"></td>
